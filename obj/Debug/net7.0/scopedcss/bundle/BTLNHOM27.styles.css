@@ -9,7 +9,7 @@ a.navbar-brand[b-i76ylpahoz] {
 }
 
 a[b-i76ylpahoz] {
-  color: #0077cc;
+  color: #cc0000;
 }
 
 .btn-primary[b-i76ylpahoz] {
@@ -19,7 +19,7 @@ a[b-i76ylpahoz] {
 }
 
 .nav-pills .nav-link.active[b-i76ylpahoz], .nav-pills .show > .nav-link[b-i76ylpahoz] {
-  color: #fff;
+  color: rgb(255, 255, 255);
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
@@ -47,3 +47,4 @@ button.accept-policy[b-i76ylpahoz] {
   white-space: nowrap;
   line-height: 60px;
 }
+

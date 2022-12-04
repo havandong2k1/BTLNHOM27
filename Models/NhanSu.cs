@@ -23,7 +23,7 @@ namespace BTLNHOM27.Models
         [Display(Name ="Số Điện Thoại")]
         public string? SDT {get; set;}
         [Required(ErrorMessage =" Số Cắn Cước Không được bỏ trống")]
-        [Display(Name ="Số Căn Cức")]
+        [Display(Name ="Số Căn Cước")]
         public string? SoCanCuoc {get; set;}
         
         public string? IDChucVu  {get; set;}

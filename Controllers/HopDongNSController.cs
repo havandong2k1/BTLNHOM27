@@ -11,94 +11,87 @@ using MvcMovie.Data;
 
 namespace BTLNHOM27.Controllers
 {
-    public class NhanSuController : Controller
+    public class HopDongNSController : Controller
     {
         private readonly MvcMovieContext _context;
 
-        public NhanSuController(MvcMovieContext context)
+        public HopDongNSController(MvcMovieContext context)
         {
             _context = context;
         }
 
-        // GET: NhanSu
+        // GET: HopDongNS
         public async Task<IActionResult> Index()
         {
-            var mvcMovieContext = _context.NhanSu.Include(n => n.ChucVu).Include(n => n.GioiTinh);
-            return View(await mvcMovieContext.ToListAsync());
+              return _context.HopDongNS != null ? 
+                          View(await _context.HopDongNS.ToListAsync()) :
+                          Problem("Entity set 'MvcMovieContext.HopDongNS'  is null.");
         }
 
-        // GET: NhanSu/Details/5
+        // GET: HopDongNS/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || _context.NhanSu == null)
+            if (id == null || _context.HopDongNS == null)
             {
                 return NotFound();
             }
 
-            var nhanSu = await _context.NhanSu
-                .Include(n => n.ChucVu)
-                .Include(n => n.GioiTinh)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (nhanSu == null)
+            var hopDongNS = await _context.HopDongNS
+                .FirstOrDefaultAsync(m => m.MaNhanVien == id);
+            if (hopDongNS == null)
             {
                 return NotFound();
             }
 
-            return View(nhanSu);
+            return View(hopDongNS);
         }
 
-        // GET: NhanSu/Create
+        // GET: HopDongNS/Create
         public IActionResult Create()
         {
-            ViewData["IDChucVu"] = new SelectList(_context.ChucVu, "IDChucVu", "TenChucVu");
-            ViewData["GioiTinhID"] = new SelectList(_context.GioiTinh, "GioiTinhID", "NameGT");
             return View();
         }
 
-        // POST: NhanSu/Create
+        // POST: HopDongNS/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,HoVaTen,GioiTinhID,Email,SDT,SoCanCuoc,IDChucVu")] NhanSu nhanSu)
+        public async Task<IActionResult> Create([Bind("MaNhanVien,PhongBan,ViTri,Luong,TrangThai")] HopDongNS hopDongNS)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(nhanSu);
+                _context.Add(hopDongNS);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IDChucVu"] = new SelectList(_context.ChucVu, "IDChucVu", "TenChucVu", nhanSu.IDChucVu);
-            ViewData["GioiTinhID"] = new SelectList(_context.GioiTinh, "GioiTinhID", "NameGT", nhanSu.GioiTinhID);
-            return View(nhanSu);
+            return View(hopDongNS);
         }
 
-        // GET: NhanSu/Edit/5
+        // GET: HopDongNS/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.NhanSu == null)
+            if (id == null || _context.HopDongNS == null)
             {
                 return NotFound();
             }
 
-            var nhanSu = await _context.NhanSu.FindAsync(id);
-            if (nhanSu == null)
+            var hopDongNS = await _context.HopDongNS.FindAsync(id);
+            if (hopDongNS == null)
             {
                 return NotFound();
             }
-            ViewData["IDChucVu"] = new SelectList(_context.ChucVu, "IDChucVu", "IDChucVu", nhanSu.IDChucVu);
-            ViewData["GioiTinhID"] = new SelectList(_context.GioiTinh, "GioiTinhID", "GioiTinhID", nhanSu.GioiTinhID);
-            return View(nhanSu);
+            return View(hopDongNS);
         }
 
-        // POST: NhanSu/Edit/5
+        // POST: HopDongNS/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,HoVaTen,GioiTinhID,Email,SDT,SoCanCuoc,IDChucVu")] NhanSu nhanSu)
+        public async Task<IActionResult> Edit(string id, [Bind("MaNhanVien,PhongBan,ViTri,Luong,TrangThai")] HopDongNS hopDongNS)
         {
-            if (id != nhanSu.ID)
+            if (id != hopDongNS.MaNhanVien)
             {
                 return NotFound();
             }
@@ -107,12 +100,12 @@ namespace BTLNHOM27.Controllers
             {
                 try
                 {
-                    _context.Update(nhanSu);
+                    _context.Update(hopDongNS);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NhanSuExists(nhanSu.ID))
+                    if (!HopDongNSExists(hopDongNS.MaNhanVien))
                     {
                         return NotFound();
                     }
@@ -123,53 +116,49 @@ namespace BTLNHOM27.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IDChucVu"] = new SelectList(_context.ChucVu, "IDChucVu", "IDChucVu", nhanSu.IDChucVu);
-            ViewData["GioiTinhID"] = new SelectList(_context.GioiTinh, "GioiTinhID", "GioiTinhID", nhanSu.GioiTinhID);
-            return View(nhanSu);
+            return View(hopDongNS);
         }
 
-        // GET: NhanSu/Delete/5
+        // GET: HopDongNS/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.NhanSu == null)
+            if (id == null || _context.HopDongNS == null)
             {
                 return NotFound();
             }
 
-            var nhanSu = await _context.NhanSu
-                .Include(n => n.ChucVu)
-                .Include(n => n.GioiTinh)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (nhanSu == null)
+            var hopDongNS = await _context.HopDongNS
+                .FirstOrDefaultAsync(m => m.MaNhanVien == id);
+            if (hopDongNS == null)
             {
                 return NotFound();
             }
 
-            return View(nhanSu);
+            return View(hopDongNS);
         }
 
-        // POST: NhanSu/Delete/5
+        // POST: HopDongNS/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.NhanSu == null)
+            if (_context.HopDongNS == null)
             {
-                return Problem("Entity set 'MvcMovieContext.NhanSu'  is null.");
+                return Problem("Entity set 'MvcMovieContext.HopDongNS'  is null.");
             }
-            var nhanSu = await _context.NhanSu.FindAsync(id);
-            if (nhanSu != null)
+            var hopDongNS = await _context.HopDongNS.FindAsync(id);
+            if (hopDongNS != null)
             {
-                _context.NhanSu.Remove(nhanSu);
+                _context.HopDongNS.Remove(hopDongNS);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool NhanSuExists(string id)
+        private bool HopDongNSExists(string id)
         {
-          return (_context.NhanSu?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.HopDongNS?.Any(e => e.MaNhanVien == id)).GetValueOrDefault();
         }
         private ExcelProcess _excelProcess = new ExcelProcess();
 
@@ -204,17 +193,15 @@ namespace BTLNHOM27.Controllers
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             //create a new Student object
-                            var ns = new NhanSu();
+                            var hd = new HopDongNS();
                             //set values for attribiutes
-                            ns.ID = dt.Rows[i][0].ToString();
-                            ns.HoVaTen = dt.Rows[i][1].ToString();
-                            ns.GioiTinhID = dt.Rows[i][2].ToString();
-                            ns.Email = dt.Rows[i][3].ToString();
-                            ns.SDT = dt.Rows[i][4].ToString();
-                            ns.SoCanCuoc = dt.Rows[i][5].ToString();
-                            ns.IDChucVu = dt.Rows[i][6].ToString();
+                            hd.MaNhanVien = dt.Rows[i][0].ToString();
+                            hd.PhongBan = dt.Rows[i][1].ToString();
+                            hd.ViTri = dt.Rows[i][2].ToString();
+                            hd.Luong = dt.Rows[i][3].ToString();
+                            hd.TrangThai = dt.Rows[i][4].ToString();
                             //add oject to context
-                            _context.NhanSu.Add(ns);
+                            _context.HopDongNS.Add(hd);
                         }
                         //save to database
                         await _context.SaveChangesAsync();
@@ -225,11 +212,5 @@ namespace BTLNHOM27.Controllers
             return View();
         
     }
+    }
 }
-}
-        
-
-
-
-    
-

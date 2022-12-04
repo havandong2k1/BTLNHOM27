@@ -19,5 +19,7 @@ namespace MvcMovie.Data
         public DbSet<BTLNHOM27.Models.GioiTinh> GioiTinh { get; set; } = default!;
 
         public DbSet<BTLNHOM27.Models.NhanSu> NhanSu { get; set; } = default!;
+
+        public DbSet<BTLNHOM27.Models.HopDongNS> HopDongNS { get; set; } = default!;
     }
 }

@@ -1,0 +1,60 @@
+@model IEnumerable<BTLNHOM27.Models.HopDongNS>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Hợp Đồng Nhân Sự Công Ty</h1>
+
+<p>
+    <a asp-action="Create">Thêm Dữ Liệu</a><br>
+     <a asp-action="Upload">Upload Excels</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.MaNhanVien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhongBan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ViTri)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Luong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNhanVien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhongBan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ViTri)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Luong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaNhanVien">Sửa</a> |
+                <a asp-action="Details" asp-route-id="@item.MaNhanVien">Xem</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaNhanVien">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
