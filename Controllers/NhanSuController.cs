@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BTLNHOM27.Models;
-using BTLNHOM27.Models.Process;
 using MvcMovie.Data;
 
 namespace BTLNHOM27.Controllers
@@ -60,7 +59,7 @@ namespace BTLNHOM27.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,HoVaTen,GioiTinhID,Email,SDT,SoCanCuoc,IDChucVu")] NhanSu nhanSu)
+        public async Task<IActionResult> Create([Bind("ID,HoVaTen,NgaySinh,GioiTinhID,Email,SDT,SoCanCuoc,IDChucVu")] NhanSu nhanSu)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +95,7 @@ namespace BTLNHOM27.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,HoVaTen,GioiTinhID,Email,SDT,SoCanCuoc,IDChucVu")] NhanSu nhanSu)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,HoVaTen,NgaySinh,GioiTinhID,Email,SDT,SoCanCuoc,IDChucVu")] NhanSu nhanSu)
         {
             if (id != nhanSu.ID)
             {
@@ -171,65 +170,5 @@ namespace BTLNHOM27.Controllers
         {
           return (_context.NhanSu?.Any(e => e.ID == id)).GetValueOrDefault();
         }
-        private ExcelProcess _excelProcess = new ExcelProcess();
-
-        public async Task<IActionResult> Upload()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Upload(IFormFile file)
-        {
-            if (file!=null)
-            {
-                string fileExtension = Path.GetExtension(file.FileName);
-                if (fileExtension != ".xls" && fileExtension != ".xlsx")
-                {
-                    ModelState.AddModelError("", "Please choose excel file to upload!");
-                }
-                else
-                {
-                    //rename file when upload to sever
-                    var fileName = DateTime.Now.ToShortTimeString() + fileExtension;
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory() + "/Uploads/Excels", fileName);
-                    var fileLocation = new FileInfo(filePath).ToString();
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        //save file to server
-                        await file.CopyToAsync(stream);
-                        //read data from file and write to database
-                        var dt = _excelProcess.ExcelToDataTable(fileLocation);
-                        //using for loop to read data form dt
-                        for (int i = 0; i < dt.Rows.Count; i++)
-                        {
-                            //create a new Student object
-                            var ns = new NhanSu();
-                            //set values for attribiutes
-                            ns.ID = dt.Rows[i][0].ToString();
-                            ns.HoVaTen = dt.Rows[i][1].ToString();
-                            ns.GioiTinhID = dt.Rows[i][2].ToString();
-                            ns.Email = dt.Rows[i][3].ToString();
-                            ns.SDT = dt.Rows[i][4].ToString();
-                            ns.SoCanCuoc = dt.Rows[i][5].ToString();
-                            ns.IDChucVu = dt.Rows[i][6].ToString();
-                            //add oject to context
-                            _context.NhanSu.Add(ns);
-                        }
-                        //save to database
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-            }
-            return View();
-        
     }
 }
-}
-        
-
-
-
-    
-

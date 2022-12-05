@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace BTLNHOM27.Migrations
 {
     /// <inheritdoc />
-    public partial class NhanSu : Migration
+    public partial class ChucVu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +16,7 @@ namespace BTLNHOM27.Migrations
                 columns: table => new
                 {
                     IDChucVu = table.Column<string>(type: "TEXT", nullable: false),
-                    TenChucVu = table.Column<string>(type: "TEXT", nullable: false)
+                    TenChucVu = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,11 +28,26 @@ namespace BTLNHOM27.Migrations
                 columns: table => new
                 {
                     GioiTinhID = table.Column<string>(type: "TEXT", nullable: false),
-                    NameGT = table.Column<string>(type: "TEXT", nullable: false)
+                    NameGT = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GioiTinh", x => x.GioiTinhID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HopDongNS",
+                columns: table => new
+                {
+                    MaNhanVien = table.Column<string>(type: "TEXT", nullable: false),
+                    PhongBan = table.Column<string>(type: "TEXT", nullable: false),
+                    ViTri = table.Column<string>(type: "TEXT", nullable: true),
+                    Luong = table.Column<string>(type: "TEXT", nullable: false),
+                    TrangThai = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HopDongNS", x => x.MaNhanVien);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,11 +56,12 @@ namespace BTLNHOM27.Migrations
                 {
                     ID = table.Column<string>(type: "TEXT", nullable: false),
                     HoVaTen = table.Column<string>(type: "TEXT", nullable: false),
-                    GioiTinhID = table.Column<string>(type: "TEXT", nullable: false),
+                    NgaySinh = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    GioiTinhID = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     SDT = table.Column<string>(type: "TEXT", nullable: false),
                     SoCanCuoc = table.Column<string>(type: "TEXT", nullable: false),
-                    IDChucVu = table.Column<string>(type: "TEXT", nullable: false)
+                    IDChucVu = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,14 +70,12 @@ namespace BTLNHOM27.Migrations
                         name: "FK_NhanSu_ChucVu_IDChucVu",
                         column: x => x.IDChucVu,
                         principalTable: "ChucVu",
-                        principalColumn: "IDChucVu",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "IDChucVu");
                     table.ForeignKey(
                         name: "FK_NhanSu_GioiTinh_GioiTinhID",
                         column: x => x.GioiTinhID,
                         principalTable: "GioiTinh",
-                        principalColumn: "GioiTinhID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "GioiTinhID");
                 });
 
             migrationBuilder.CreateIndex(
@@ -77,6 +92,9 @@ namespace BTLNHOM27.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "HopDongNS");
+
             migrationBuilder.DropTable(
                 name: "NhanSu");
 

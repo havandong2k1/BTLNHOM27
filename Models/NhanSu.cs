@@ -12,6 +12,8 @@ namespace BTLNHOM27.Models
         [Required(ErrorMessage ="Họ Và Tên không được bỏ trống")]
         [Display(Name ="Họ Và Tên")]
         public string? HoVaTen {get; set;}
+        [Display(Name ="Ngày Tháng Năm Sinh")]
+        public DateTime? NgaySinh {get; set;}
          public string? GioiTinhID {get; set;}
         [ForeignKey("GioiTinhID")]
         [Display(Name ="Giới Tính")]

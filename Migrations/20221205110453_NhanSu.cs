@@ -5,7 +5,7 @@
 namespace BTLNHOM27.Migrations
 {
     /// <inheritdoc />
-    public partial class ChucVu : Migration
+    public partial class NhanSu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,22 +1,25 @@
 @model IEnumerable<BTLNHOM27.Models.NhanSu>
 
 @{
-    ViewData["Title"] = "Index"; 
+    ViewData["Title"] = "Index";
 }
 
-<h1>Nhân Sự Công Ty</h1>
+<h1>Nhân Sự Trong Công Ty</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a><br>
 </p>
-<table  class="table">
+<table class="table">
     <thead>
         <tr>
-            <th>
+             <th>
                 @Html.DisplayNameFor(model => model.ID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.HoVaTen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgaySinh)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.GioiTinh)
@@ -39,11 +42,14 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+             <td>
                 @Html.DisplayFor(modelItem => item.ID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HoVaTen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgaySinh)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GioiTinh.NameGT)

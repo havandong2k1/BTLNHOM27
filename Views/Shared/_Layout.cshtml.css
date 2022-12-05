@@ -8,7 +8,7 @@ a.navbar-brand {
 }
 
 a {
-  color: #cc0000;
+  color: #0077cc;
 }
 
 .btn-primary {
@@ -18,7 +18,7 @@ a {
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: rgb(255, 255, 255);
+  color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
@@ -46,4 +46,3 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
-
